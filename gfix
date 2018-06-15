@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import sys
+import fileinput
+import os
+
+def main():
+	fileToSearch = sys.argv[1] #only one file as args
+	
+	fixdata={
+	" i ": " I ",
+	"ive": "I've",
+	"Ive": "I've",
+	"avent": "aven't",
+	"houldnt": "houldn't",
+	"oesnt": "oesn't",
+	"mustnt": "mustn't",
+	"couldnt": "couldn't",
+	"hadnt": "had'nt",
+	}
+	
+	print("Fixing:" + fileToSearch)
+	
+	with fileinput.FileInput(fileToSearch, inplace=True, backup=".bak") as file:
+		for line in file:
+			for k, v in fixdata.items():
+				line=line.replace(k, v)
+				pass
+			#	print(line.replace(" i ", " I "), end="")
+			print(line,end="")
+			pass
+
+
+	#For preserving the backup (.bak) file
+	#comment from here
+	try:
+		os.remove(fileToSearch+".bak")
+		print("backup removed.")
+	except OSError:
+		pass			
+	#to here
+
+	print("Done...")
+	
+	pass
+
+if __name__ == "__main__":
+	sys.exit(main())
